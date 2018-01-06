@@ -26,6 +26,7 @@ const extractOptions = {
 };
 
 module.exports = {
+    devtool: "cheap-module-source-map",
     entry: "./src/js/extension.js",
     output: {
         filename: "build.js",
@@ -33,6 +34,17 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.js$/,
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: ["env"]
+                        }
+                    }
+                ]
+            },
             {
                 test: /options\.scss$/,
                 use: extractOptionsPage.extract(extractOptions)
