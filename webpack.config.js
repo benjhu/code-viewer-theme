@@ -3,6 +3,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const extractExtension = new ExtractTextPlugin("./css/[name].min.css");
 const extractOptionsPage = new ExtractTextPlugin("./css/options/options.min.css");
+const extractCSS = new ExtractTextPlugin("./css/[name].min.css");
 
 const extractOptions = {
     fallback: "style-loader",
@@ -25,11 +26,19 @@ const extractOptions = {
     ]
 };
 
+const extractCSSOptions = {
+    fallback: "style-loader",
+    use: ["css-loader"]
+};
+
 module.exports = {
     devtool: "cheap-module-source-map",
     entry: {
         extension: "./src/js/extension.js",
-        options: "./src/js/options/options.export.js"
+        options: "./src/js/options/options.export.js",
+        
+        // Uncomment to build vendor files
+        // vendor: "./src/js/vendor.js"
     },
     output: {
         filename: "[name].build.js",
@@ -49,6 +58,10 @@ module.exports = {
                 ]
             },
             {
+                test: /\.css$/,
+                use: extractCSS.extract(extractCSSOptions)
+            },
+            {
                 test: /options\.scss$/,
                 use: extractOptionsPage.extract(extractOptions)
             },
@@ -61,6 +74,7 @@ module.exports = {
     },
     plugins: [
         extractExtension,
-        extractOptionsPage
+        extractOptionsPage,
+        extractCSS
     ]
 };
