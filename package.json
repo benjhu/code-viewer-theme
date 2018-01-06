@@ -4,7 +4,7 @@
   "description": "A chrome extension to change the theme of GitHub code.",
   "main": "index.js",
   "scripts": {
-    "webpack": "webpack"
+    "build": "webpack"
   },
   "author": "Benjamin Huang",
   "license": "MIT",
@@ -15,6 +15,8 @@
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.28.8",
     "extract-text-webpack-plugin": "^3.0.2",
+    "google-fonts-webpack-plugin": "^0.4.4",
+    "materialize-css": "^1.0.0-alpha.3",
     "node-sass": "^4.7.2",
     "postcss-loader": "^2.0.10",
     "sass-loader": "^6.0.6",

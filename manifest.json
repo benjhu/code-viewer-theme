@@ -17,8 +17,8 @@
             "matches": [
                 "https://github.com/*"
             ],
-            "js": ["./dist/build.js"],
-            "css": ["./dist/css/main.min.css"]
+            "js": ["./dist/extension.build.js"],
+            "css": ["./dist/css/extension.min.css"]
         }
     ],
 
