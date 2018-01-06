@@ -1,0 +1,21 @@
+{
+  "name": "code-view-theme",
+  "version": "0.0.1",
+  "description": "A chrome extension to change the theme of GitHub code.",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "webpack"
+  },
+  "author": "Benjamin Huang",
+  "license": "MIT",
+  "dependencies": {
+    "autoprefixer": "^7.2.4",
+    "css-loader": "^0.28.8",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.0.10",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.1",
+    "webpack": "^3.10.0"
+  }
+}

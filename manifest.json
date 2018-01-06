@@ -1,0 +1,28 @@
+{
+    "manifest_version": 2,
+
+    "name": "GitHub Code View",
+    "description": "Change the color scheme of the GitHub code viewer.",
+    "version": "0.1",
+
+    "options_page": "./public/options.html",
+
+    "browser_action": {
+        "default_popup": "./public/index.html",
+        "default_title": "GitHub Code View"
+    },
+
+    "content_scripts": [
+        {
+            "matches": [
+                "https://github.com/*"
+            ],
+            "js": ["./dist/build.js"],
+            "css": ["./dist/css/main.min.css"]
+        }
+    ],
+
+    "permissions": [
+        "storage"
+    ]
+}
