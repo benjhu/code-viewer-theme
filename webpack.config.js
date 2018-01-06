@@ -27,9 +27,12 @@ const extractOptions = {
 
 module.exports = {
     devtool: "cheap-module-source-map",
-    entry: "./src/js/extension.js",
+    entry: {
+        extension: "./src/js/extension.js",
+        options: "./src/js/options/options.export.js"
+    },
     output: {
-        filename: "build.js",
+        filename: "[name].build.js",
         path: path.resolve(__dirname + "/dist")
     },
     module: {
