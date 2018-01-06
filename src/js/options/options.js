@@ -1,5 +1,6 @@
 import storage from "./storage";
 import defaultProperties from "./propertyDefaults";
+import { dialog } from "./materialize.scripts";
 
 const syncSettings = document.querySelector("#sync-settings");
 const fontFamily = document.querySelector("#view-font-family");
@@ -28,9 +29,12 @@ const loadProperties = props => {
     });
 };
 
-const setProperties = props => {
+const setProperties = (props, dialogMessage) => {
     // Refresh UI once properties are loaded.
-    storage.setProperties(props, () => loadProperties(defaultProperties));
+    storage.setProperties(props, () => {
+        loadProperties(defaultProperties);
+        dialog(dialogMessage);
+    });
 };
 
 // On init, restore properties using the storage API.
@@ -38,5 +42,5 @@ loadProperties(defaultProperties);
 
 // Add event listeners
 syncSettings.addEventListener("click", () => storage.setProperty("syncSettings", syncSettings.checked));
-saveButton.addEventListener("click", () => setProperties(propertyState()));
-resetButton.addEventListener("click", () => setProperties(defaultProperties));
+saveButton.addEventListener("click", () => setProperties(propertyState(), "Updated properties"));
+resetButton.addEventListener("click", () => setProperties(defaultProperties, "Restored default properties"));
