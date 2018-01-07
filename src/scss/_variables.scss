@@ -1,0 +1,11 @@
+$colors: (
+    1: rgb(218, 109, 109),
+    2: rgb(148, 132, 219)
+);
+
+// Export variables into CSS declarations.
+@each $color in map-keys($colors) {
+    .bg-#{$color} {
+        background-color: map-get($colors, $color) !important;
+    }
+}
