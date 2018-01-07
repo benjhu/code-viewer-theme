@@ -41,6 +41,12 @@ const setProperties = (props, dialogMessage) => {
 loadProperties(defaultProperties);
 
 // Add event listeners
-syncSettings.addEventListener("click", () => storage.setProperty("syncSettings", syncSettings.checked));
+syncSettings.addEventListener("click", () => storage.setProperty("syncSettings", syncSettings.checked, () => {
+    dialog(
+        syncSettings.checked ?
+            "Settings will be synced to your Google account." :
+            "Settings will not be synced to your Google account"
+    );
+}));
 saveButton.addEventListener("click", () => setProperties(propertyState(), "Updated properties"));
 resetButton.addEventListener("click", () => setProperties(defaultProperties, "Restored default properties"));
