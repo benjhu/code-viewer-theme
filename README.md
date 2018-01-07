@@ -1,9 +1,9 @@
 ## Build
-'''$ npm install''' the dependencies first. Then build the project by:
+```$ npm install``` the dependencies first. Then build the project by:
 
-'''
+```
 $ npm run build
-'''
+```
 
 ## Install to Chrome
 The files this extension depends on are created once the project is built.
