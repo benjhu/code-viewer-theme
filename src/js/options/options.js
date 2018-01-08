@@ -1,4 +1,4 @@
-import storage from "./storage";
+import storage from "../util/storage";
 import defaultProperties from "./propertyDefaults";
 import { dialog } from "./materialize.scripts";
 
