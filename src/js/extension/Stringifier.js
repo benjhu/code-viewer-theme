@@ -40,28 +40,28 @@ export class CSSDeclaration {
         return this;
     }
 
-    build() {
+    stringify() {
         const dec = this.declaration;
         let propertiesBuild = "";
         let header = "";
-        let build;
 
-        if (dec.id)
-            header = header.concat("#", dec.id);
+        if (dec.classNames && dec.classNames.length > 0) {
+            header = dec.classNames.map(className => {
+                let singleCSSDeclaration = "";
 
-        if (dec.classNames)
-            dec.classNames.forEach(className => {
-                header = header.concat(".", className);
-            });
+                if (dec.id)
+                    singleCSSDeclaration = singleCSSDeclaration.concat("#", dec.id);
+
+                return singleCSSDeclaration.concat(".", className);
+            }).join(",");
+        }
 
         if (this.properties.length > 0)
             this.properties.forEach(property => {
                 propertiesBuild = propertiesBuild.concat(property.stringify());
             });
 
-        build = header.concat("{", propertiesBuild, "}");
-
-        return build;
+        return header.concat("{", propertiesBuild, "}");
     }
 }
 
@@ -81,7 +81,7 @@ export class Stringifier {
 
     stringify() {
         this.declarations.forEach(declaration => {
-            this.build = this.build.concat(declaration.build());
+            this.build = this.build.concat(declaration.stringify());
         });
 
         return this.build;
