@@ -30,6 +30,9 @@ export const matchUrl = (url, matchPattern, matchHttp = true, exactMatch = false
     const a = url.split("/");
     const b = matchPattern.split("/");
 
+    if (a.length < b.length)
+        return false;
+
     if (exactMatch && (a.length !== b.length))
         return false;
 
