@@ -11,8 +11,10 @@ export class CSSProperty {
         return this;
     }
 
-    stringify() {
-        return this.propertyName + ": " + this.build + ";";
+    stringify(important = true) {
+        const str = this.propertyName + ": " + this.build;
+
+        return (important ? str.concat(" !important") : str).concat(";");
     }
 }
 
