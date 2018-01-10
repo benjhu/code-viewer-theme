@@ -1,4 +1,5 @@
 export const name = "GitHub";
+export const url = "https://github.com/*/*";
 
 export const properties = {
     fontFamily: {
@@ -23,7 +24,12 @@ export const properties = {
 export const cssDeclarations = [
     {
         name: "main",
-        classNames: ["blob-code-inner"],
+        classNames: ["blob-code-inner", "another-property"],
         properties: ["fontFamily", "fontSize", "lineHeight"]
+    },
+    {
+        name: "line-numbers",
+        classNames: ["js-line-number"],
+        properties: ["fontSize"]
     }
 ];
