@@ -18,6 +18,14 @@ export const toConsole = (message, warn = false) => {
     }
 };
 
+/**
+ * Matches a URL pattern with a match pattern. Returns {@code true} if the URL matches.
+ *
+ * @param {string} url a URL formatted: "https://example.com/'.
+ * @param {string} matchPattern a match pattern formatted "http://example.com/*" where '*' denotes any substring.
+ * @param {boolean} matchHttp if false, HTTP and HTTPS URLs are treated the same.
+ * @param {boolean} exactMatch will match a URL exactly.
+ */
 export const matchUrl = (url, matchPattern, matchHttp = true, exactMatch = false) => {
     const a = url.split("/");
     const b = matchPattern.split("/");
