@@ -1,4 +1,3 @@
-import "./options/options";
+import "./extension/init";
 
 import "../scss/main.scss";
-import "../scss/options/options.scss";
