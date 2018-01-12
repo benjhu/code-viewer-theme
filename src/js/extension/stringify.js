@@ -1,17 +1,9 @@
 import { Stringifier, CSSProperty, CSSDeclaration } from "./Stringifier";
 import propertySets from "./property-sets/exports";
-
 import { toConsole } from "../util/utils";
 
-const availableProperties = {};
-
 const buildProperties = (propertySet, override = false) => {
-    const name = propertySet.name.toLowerCase();
-
-    if (!availableProperties[name])
-        availableProperties[name] = {};
-
-    const propertyStore = availableProperties[name];
+    const propertyStore = {};
     const props = propertySet.properties;
     const keys = Object.keys(props);
 
@@ -28,10 +20,12 @@ const buildProperties = (propertySet, override = false) => {
             propertyStore[key] = cssProp;
         }
     });
+
+    return propertyStore;
 };
 
-const stringify = (propertySet) => {
-    const properties = availableProperties[propertySet.name.toLowerCase()];
+const buildDeclarations = (propertySet, properties) => {
+    // const properties = availableProperties[propertySet.name.toLowerCase()];
     const declarations = propertySet.cssDeclarations;
     const stringifier = new Stringifier();
 
@@ -54,12 +48,13 @@ const stringify = (propertySet) => {
 };
 
 export default propertySetName => {
-    for (let propertySet of propertySets) {
-        if (propertySet.name.toLowerCase() === propertySetName.toLowerCase()) {
-            buildProperties(propertySet, false);
-            return stringify(propertySet);
-        }
-    }
+    const set = propertySets.find(set =>
+        set.name.toLowerCase() === propertySetName.toLowerCase());
 
-    return false;
+    if (!set)
+        throw new Error(`Property set for '${propertySetName}' was not found. Aborting property set build.`);
+
+    return buildDeclarations(
+        set, buildProperties(set, false)
+    );
 };
