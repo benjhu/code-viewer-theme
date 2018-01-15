@@ -30,6 +30,6 @@ export const cssDeclarations = [
     {
         name: "line-numbers",
         classNames: ["js-line-number"],
-        properties: ["fontSize"]
+        properties: ["fontSize", "lineHeight"]
     }
 ];
