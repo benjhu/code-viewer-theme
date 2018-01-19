@@ -10,5 +10,5 @@ chrome.tabs.onUpdated.addListener((tabID, info, tab) => {
     const match = propertySets.find(propertySet => matchUrl(tab.url, propertySet.url, false, false));
 
     if (match)
-        Injector.inject(tabID, stringify(match.name));
+        stringify(match.name).then(str => Injector.inject(tabID, str));
 });
