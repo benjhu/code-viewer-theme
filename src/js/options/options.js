@@ -30,14 +30,14 @@ propertySets.forEach(propertySet => {
         };
 
         if (props[key].inheritable)
-            elements[key].inheritFrom = qs(`#view-${props[key].css}`);
+            elements[key].inheritFrom = `#view-${props[key].css}`;
 
         if (props[key].binary)
             elements[key].binary = true;
+
+        elements[key].css = props[key].css;
     });
 });
-
-console.log(propertySetInputNodes);
 
 // Once called, return the current state of the values of the
 // settings in the UI.
@@ -55,15 +55,21 @@ const propertyState = () => {
 
         Object.keys(props).forEach(key => {
             const value = props[key];
-            stateOfSet[key] = props.binary ? value.input.checked : value.input.value;
+            const inheritFrom = qs(`#${set}-${value.css}-inherit`);
+
+            if (value.inheritFrom && inheritFrom && inheritFrom.checked) {
+                stateOfSet[key] = state[key];
+                stateOfSet[`${key}Inherit`] = true;
+            } else {
+                stateOfSet[key] = props.binary ?
+                    value.input.checked :
+                    value.input.value;
+            }
         });
     });
 
     return state;
 };
-
-// Todo: delete
-window.__propState = propertyState;
 
 const loadProperties = props => {
     storage.getProperties(props).then(loaded => {
@@ -71,6 +77,33 @@ const loadProperties = props => {
         lineHeight.value = loaded.lineHeight;
         fontFamily.value = loaded.fontFamily;
         fontSize.value = loaded.fontSize;
+
+        Object.keys(propertySetInputNodes).forEach(propertySet => {
+            const loadedPropertySet = loaded[propertySet];
+            const props = propertySetInputNodes[propertySet];
+
+            Object.keys(props).forEach(key => {
+                const prop = props[key];
+                const inheritCheckBox = qs(`${propertySet}-${prop.css}-inherit`);
+                let set;
+
+                if (loadedPropertySet[`${key}Inherit`]) {
+                    set = loaded[key];
+                    prop.input.disabled = true;
+                } else {
+                    set = loadedPropertySet[key];
+                    prop.input.disabled = false;
+                }
+
+                if (prop.binary)
+                    prop.input.checked = set;
+                else
+                    prop.input.value = set;
+
+                if (inheritCheckBox)
+                    inheritCheckBox.checked = prop.input.disabled;
+            });
+        });
     });
 };
 
