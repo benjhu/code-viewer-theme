@@ -1,4 +1,5 @@
 const store = chrome.storage;
+const local = store.local;
 
 class StorageManager {
     constructor() {
@@ -6,7 +7,7 @@ class StorageManager {
         this.storage = store.sync;
     }
 
-    setStore(sync) {
+    setStore(sync = true) {
         if (sync && this.storage !== store.sync)
             this.storage = store.sync;
         else
@@ -26,7 +27,7 @@ class StorageManager {
 
                     resolve(opt[property]);
                 }
-                
+
                 else reject(new Error("Unable to load property."));
             });
         });
@@ -53,7 +54,7 @@ class StorageManager {
                 if (opts) {
                     if (callback)
                         callback();
-                        
+
                     resolve(opts);
                 }
 
