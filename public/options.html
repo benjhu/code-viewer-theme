@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <link rel="stylesheet" href="/dist/css/vendor.min.css" />
-        <link rel="stylesheet" href="/dist/fonts.css">
+        <link rel="stylesheet" href="/dist/css/fonts.css">
         <link rel="stylesheet" href="/dist/css/options/options.min.css" />
     </head>
     <body>
@@ -16,7 +16,7 @@
                 </div>
                 <div class="options-container">
                     <div class="options-container-child">
-                        <h4>Basic Settings</h4>
+                        <h4>General</h4>
                     </div>
                     <div class="options-container-child">
                         <label for="view-font-family">Font Family</label>
@@ -36,9 +36,48 @@
                     </div>
                     <div class="options-container-child">
                         <label class="align-children-vertically">
-                            <input type="checkbox" name="sync-settings" id="sync-settings" class="filled-in" />                                
-                            <span>Sync Settings</span>
+                            <input type="checkbox" name="sync-settings" id="sync-settings" class="filled-in" />
+                            <span>Sync settings across devices</span>
                         </label>
+                    </div>
+                    <div class="options-container-child">
+                        <label class="align-children-vertically">
+                            <input type="checkbox" name="enable-console-messages" id="enable-console-messages" class="filled-in" />
+                            <span>Enable console messages</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="options-container">
+                    <div class="options-container-child">
+                        <h4>GitHub</h4>
+                    </div>
+                    <div class="options-container-child">
+                        <label for="github-font-family">Font Family</label>
+                        <input type="text" name="github-font-family" id="github-font-family" />
+                        <label>
+                            <input type="checkbox" name="github-font-family-inherit" id="github-font-family-inherit" class="filled-in" />
+                            <span>Inherit</span>
+                        </label>
+                    </div>
+                    <div class="options-container-child">
+                        <label for="github-font-size">Font Size</label>
+                        <input type="text" name="github-font-size" id="github-font-size" />
+                        <label>
+                            <input type="checkbox" name="github-font-size-inherit" id="github-font-size-inherit" class="filled-in" />
+                            <span>Inherit</span>
+                        </label>
+                    </div>
+                    <div class="options-container-child">
+                        <label for="github-line-height">Line Height</label>
+                        <input type="text" name="github-line-height" id="github-line-height" />
+                        <label>
+                            <input type="checkbox" name="github-line-height-inherit" id="github-line-height-inherit" class="filled-in" />
+                            <span>Inherit</span>
+                        </label>
+                    </div>
+                    <div class="options-container-child">
+                        <button type="button" name="github-save-settings" id="github-save-settings" class="btn waves-effect waves-light">Save</button>
+                        <button type="button" name="github-reset-settings" id="github-reset-settings" class="btn waves-effect waves-light bg-1">Restore Defaults</button>
                     </div>
                 </div>
             </div>
