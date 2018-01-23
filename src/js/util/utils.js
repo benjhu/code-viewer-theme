@@ -2,6 +2,8 @@ const defaultUserSettings = {
     enableConsoleMessages: true
 };
 
+export const querySelector = window && window.document ? window.document.querySelector.bind(document) : () => {};
+
 /**
  * Evaluates user permissions and sends a message to console if the feature is enabled by the user.
  *
