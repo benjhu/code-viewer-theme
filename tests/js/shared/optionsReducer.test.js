@@ -1,6 +1,7 @@
 import chai from "chai";
 import { createStore } from "redux";
 import optionsReducer, { OPTIONS_UPDATE } from "../../../src/js/shared/optionsReducer";
+import Types from "../../../src/js/shared/Types";
 
 const assert = chai.assert;
 
@@ -17,22 +18,27 @@ describe("Options Reducer", () => {
             {
                 setID: 0,
                 property: "font-family",
-                value: "monospace"
+                value: "monospace",
+                type: Types.TEXT
             },
             {
                 setID: 0,
                 property: "font-size",
-                value: "16px",
+                value: 16,
+                unit: "px",
+                type: Types.NUMBER
             },
             {
                 setID: 0,
                 property: "color",
-                value: "black"
+                value: "black",
+                type: Types.TEXT
             },
             {
                 setID: 0,
                 property: "background",
-                value: "transparent"
+                value: "transparent",
+                type: Types.TEXT
             }
         ];
 
@@ -43,10 +49,10 @@ describe("Options Reducer", () => {
         it("property added to store", () => {
             store.dispatch({
                 type: OPTIONS_UPDATE,
-                id: 0,
                 setID: 0,
                 property: "font-family",
-                setAs: "Menlo"
+                setAs: "Menlo",
+                propertyType: Types.TEXT
             });
 
             assert.equal(1,
@@ -55,10 +61,11 @@ describe("Options Reducer", () => {
 
         it("multiple properties added to store", () => {
             populate.forEach(
-                ({ setID, property, setAs }) => store.dispatch({
+                ({ setID, property, value, type }) => store.dispatch({
                     type: OPTIONS_UPDATE,
                     setID, property,
-                    value: setAs
+                    setAs: value,
+                    propertyType: type
                 })
             );
 
@@ -66,12 +73,13 @@ describe("Options Reducer", () => {
                 store.getState().properties.length);
         });
 
-        it("property is properly replaced", () => {
+        it("a single property is properly replaced; property type is not mutated", () => {
             populate.forEach(
-                ({ setID, property, value }) => store.dispatch({
+                ({ setID, property, value, type }) => store.dispatch({
                     type: OPTIONS_UPDATE,
                     setID, property,
-                    setAs: value
+                    setAs: value,
+                    propertyType: type
                 })
             );
 
@@ -81,21 +89,23 @@ describe("Options Reducer", () => {
             const addThis = {
                 setID: 0,
                 property: "font-family",
-                value: "Menlo"
+                value: "Menlo",
+                type: Types.TEXT
             };
 
             store.dispatch({
+                ...addThis,
+                setAs: addThis.value,
                 type: OPTIONS_UPDATE,
-                setID: 0,
-                property: "font-family",
-                setAs: "Menlo"
+                propertyType: Types.NUMBER
             });
 
             let finalState = store.getState();
-            const findFunction = ({ setID, property, value }) =>
+            const findFunction = ({ setID, property, value, type }) =>
                 setID === addThis.setID &&
                 property === addThis.property &&
-                value === addThis.value;
+                value === addThis.value &&
+                type === addThis.type;
 
             // Final length equals initial length
             assert.equal(initialSize, finalState.properties.length);
