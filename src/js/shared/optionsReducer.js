@@ -1,7 +1,14 @@
 export const OPTIONS_UPDATE = "OPTIONS_UPDATE";
 
 /**
- * Returns the new state of the property after shallow merging a new property-value pair.
+ * Returns the new state of properties after shallow merging a new property-value pair.
+ * Each property to be added contains:
+ *  - ID of the set it belongs to (setID)
+ *  - name of the property to be replaced, or added if a new property (property)
+ *  - value of the new/replaced property (value)
+ *  - the type of property (type)
+ *      + the type is ignored during replacements, for the type should be
+ *        consistent during every state.
  *
  * @param {object} state the state of a property
  * @param {object} toAdd an object containing the information
@@ -16,13 +23,26 @@ const newProperties = (state = [], toAdd) => {
             property === toAdd.property
     );
 
-    if (foundIndex === -1)
+    if (foundIndex === -1) {
+        // A new property is being added, but the type key is omitted,
+        // so don't do anything.
+        if (!toAdd.type)
+            return state;
+
         return [
             ...state, toAdd
         ];
+    }
+
+    // Property is being replaced.
 
     // Splice array at where there was a match to keep the property in place.
     const newArray = [...state];
+    const toBeRemoved = newArray[foundIndex];
+
+    // Replace the type from the old one.
+    toAdd.type = toBeRemoved.type;
+
     newArray.splice(foundIndex, 1, toAdd);
 
     return newArray;
@@ -48,7 +68,8 @@ const optionsReducer = (state = { properties: [] }, action) => {
                 properties: newProperties(state.properties, {
                     setID: action.setID,
                     property: action.property,
-                    value: action.setAs
+                    value: action.setAs,
+                    type: action.propertyType
                 })
             };
         default:
