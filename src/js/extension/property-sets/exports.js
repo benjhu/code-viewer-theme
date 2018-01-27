@@ -17,6 +17,21 @@ export const getDefaultProperties = propertySet => {
     return defaults;
 };
 
+/**
+ * Converts a string in kebab case to a string suitable to be
+ * displayed in UI.
+ *
+ * @param {string} kebab a string in kebab case
+ */
+export const convertToDisplayName = kebab => {
+    return kebab.split("-")
+        .map(chunk =>
+            chunk.substr(0, 1)
+                .toUpperCase()
+                .concat(chunk.substring(1)))
+        .join(" ");
+};
+
 // Export the property sets to be generated into CSS declarations.
 export default [
     githubPropertySet
