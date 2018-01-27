@@ -4,9 +4,9 @@ export const name = "propertySets";
  * Available actions for this reducer.
  */
 export const actions = {
-    ADD_SET: "SETS_ADD_SET",
-    DELETE_SET: "SETS_DELETE_SET",
-    AMEND_SET: "SETS_AMEND_SET"
+    ADD_SET: Symbol("SETS_ADD_SET"),
+    DELETE_SET: Symbol("SETS_DELETE_SET"),
+    AMEND_SET: Symbol("SETS_AMEND_SET")
 };
 
 /**

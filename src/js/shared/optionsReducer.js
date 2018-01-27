@@ -3,7 +3,7 @@ import setsReducer from "./setsReducer";
 export const name = "options";
 export const OPTIONS_UPDATE = "OPTIONS_UPDATE";
 export const actions = {
-    UPDATE: "OPTIONS_UPDATE"
+    UPDATE: Symbol("OPTIONS_UPDATE")
 };
 
 /**
@@ -75,7 +75,7 @@ export const reducer = (state = { nextID: 0, properties: [], sets: {} }, action)
         return setsReducer.reducer(state, { ...action, id: action.id });
 
     switch (action.type) {
-        case OPTIONS_UPDATE:
+        case actions.UPDATE:
             return {
                 ...state,
                 properties: newProperties(state.properties, {
