@@ -1,6 +1,7 @@
-import propertySets from "../extension/property-sets/exports";
+import propertySets from "Shared/property-sets/exports";
 
-const defaults = {
+const sets = {};
+export const defaults = {
     syncSettings: true,
     lineHeight: 1.5,
     fontFamily: "Courier New",
@@ -9,7 +10,7 @@ const defaults = {
 
 // Add the property sets to the defaults object.
 propertySets.forEach(set => {
-    defaults[set.name.toLowerCase()] = {};
+    sets[set.name.toLowerCase()] = {};
 });
 
-export default defaults;
+export default Object.assign({}, defaults, sets);

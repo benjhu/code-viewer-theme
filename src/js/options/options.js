@@ -1,9 +1,9 @@
 import storage from "../util/storage";
 import defaultProperties from "./propertyDefaults";
 import { dialog } from "./materialize.scripts";
-import propertySets from "../extension/property-sets/exports";
+import propertySets from "Shared/property-sets/exports";
 
-const qs = window.document.querySelector.bind(document);
+import { querySelector as qs } from "../util/utils";
 
 // GENERAL
 const syncSettings = qs("#sync-settings");

@@ -1,6 +1,6 @@
 import storage from "../util/storage";
 import { Stringifier, CSSProperty, CSSDeclaration } from "./Stringifier";
-import propertySets from "./property-sets/exports";
+import propertySets from "Shared/property-sets/exports";
 import { toConsole } from "../util/utils";
 
 const buildProperties = (propertySet, override = false) => {
