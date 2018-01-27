@@ -1,15 +1,17 @@
 import chai from "chai";
 import { createStore } from "redux";
-import optionsReducer, { OPTIONS_UPDATE } from "../../../src/js/shared/optionsReducer";
+import { actions, reducer as optionsReducer } from "../../../src/js/shared/optionsReducer";
+import { actions as setsActions } from "../../../src/js/shared/setsReducer";
 import Types from "../../../src/js/shared/Types";
 
 const assert = chai.assert;
+const OPTIONS_UPDATE = actions.UPDATE;
 
 /* global describe, it, beforeEach */
 
 describe("Options Reducer", () => {
-    it("adds a property", () => {
-        assert.deepEqual({ properties: [] }, optionsReducer(undefined, undefined));
+    it("state is populated", () => {
+        assert.deepEqual({ properties: [], nextID: 0, sets: {} }, optionsReducer(undefined, undefined));
     });
 
     describe("Options reducer in the Redux store", () => {
@@ -115,6 +117,42 @@ describe("Options Reducer", () => {
 
             // Replaced property correctly
             assert.deepEqual(addThis, finalState.properties.find(findFunction));
+        });
+    });
+
+    describe("Sets Reducer", () => {
+        let store;
+
+        const sets = [
+            { name: "github" }, { name: "bitbucket" }, { name: "times" }
+        ];
+
+        beforeEach(() => {
+            store = createStore(optionsReducer);
+        });
+
+        it("adds a set", () => {
+            store.dispatch({
+                type: setsActions.ADD_SET,
+                setName: "github"
+            });
+
+            assert.nestedProperty(store.getState().sets, "0", "Has");
+        });
+
+        it("adds multiple sets and assigns ID's properly", () => {
+            sets.forEach(set => {
+                store.dispatch({
+                    type: setsActions.ADD_SET,
+                    setName: set.name
+                });
+            });
+
+            const finalState = store.getState();
+
+            Object.keys(finalState.sets).forEach((set, i) => {
+                assert.nestedProperty(finalState.sets, `${i}`);
+            });
         });
     });
 });
