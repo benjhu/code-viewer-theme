@@ -27,7 +27,7 @@ const newSet = (state, setInfo, amend = false) => {
         nextID: setInfo.id + 1,
         sets: {
             ...state.sets,
-            [state.nextID]: {
+            [setInfo.name]: {
                 ...setInfo
             }
         }
@@ -47,13 +47,17 @@ export const reducer = (state = { sets: {} }, action) => {
         case actions.ADD_SET:
             return newSet(state, {
                 id: state.nextID,
-                name: action.setName
+                name: action.setName,
+                displayName: action.displayName || action.setName,
+                disabled: action.disabled
             });
 
         case actions.AMEND_SET:
             return newSet(state, {
                 id: state.nextID,
-                name: action.setName
+                name: action.setName,
+                displayName: action.displayName || action.setName,
+                disabled: action.disabled
             }, true);
 
         default:
