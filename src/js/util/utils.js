@@ -4,6 +4,19 @@ const defaultUserSettings = {
 
 export const querySelector = window && window.document ? window.document.querySelector.bind(document) : () => {};
 
+export const kebabOrSpaceToCamel = kebab => {
+    return kebab.split(/[-\s]+/)
+        .map((chunk, i) => {
+            const fn = i === 0 ?
+                String.prototype.toLowerCase :
+                String.prototype.toUpperCase;
+
+            return fn.call(chunk.substr(0, 1))
+                .concat(chunk.substring(1));
+        })
+        .join("");
+};
+
 /**
  * Evaluates user permissions and sends a message to console if the feature is enabled by the user.
  *
