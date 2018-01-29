@@ -137,7 +137,7 @@ describe("Options Reducer", () => {
                 setName: "github"
             });
 
-            assert.nestedProperty(store.getState().sets, "0", "Has");
+            assert.nestedProperty(store.getState().sets, "github");
         });
 
         it("adds multiple sets and assigns ID's properly", () => {
@@ -151,8 +151,10 @@ describe("Options Reducer", () => {
             const finalState = store.getState();
 
             Object.keys(finalState.sets).forEach((set, i) => {
-                assert.nestedProperty(finalState.sets, `${i}`);
+                assert.equal(set, sets[i].name);
             });
+
+            assert.equal(finalState.nextID, sets.length);
         });
     });
 });

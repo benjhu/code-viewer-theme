@@ -82,7 +82,8 @@ export const reducer = (state = { nextID: 0, properties: [], sets: {} }, action)
                     setID: action.setID,
                     property: action.property,
                     value: action.setAs,
-                    type: action.propertyType
+                    type: action.propertyType,
+                    unit: action.unit
                 })
             };
         default:
