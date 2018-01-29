@@ -4,7 +4,8 @@
   "description": "A chrome extension to change the theme of GitHub code.",
   "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "test": "mocha tests --recursive --require babel-register"
   },
   "author": "Benjamin Huang",
   "license": "MIT",
@@ -13,15 +14,31 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.8",
     "extract-text-webpack-plugin": "^3.0.2",
     "google-fonts-webpack-plugin": "^0.4.4",
     "jquery": "^3.2.1",
+    "material-ui": "^1.0.0-beta.30",
     "materialize-css": "^1.0.0-alpha.3",
     "node-sass": "^4.7.2",
     "postcss-loader": "^2.0.10",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0"
+  },
+  "devDependencies": {
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.16.0",
+    "eslint-plugin-class-property": "^1.1.0",
+    "eslint-plugin-react": "^7.5.1",
+    "mocha": "^5.0.0"
   }
 }
