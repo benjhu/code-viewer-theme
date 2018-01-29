@@ -16,6 +16,7 @@ export const properties = {
     },
     lineHeight: {
         css: "line-height",
+        type: Types.NUMBER,
         unit: "em",
         defaultValue: 1.5
     }

@@ -15,8 +15,6 @@ import NumberWithUnit from "./NumberWithUnit";
  * @param {object} props props (functional React component)
  */
 const ControlSwitch = props => {
-    console.log(props);
-
     switch (props.type) {
         case Types.TEXT:
             return (

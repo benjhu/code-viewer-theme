@@ -1,3 +1,4 @@
+import * as general from "./general";
 import * as githubPropertySet from "./github";
 
 /**
@@ -34,5 +35,6 @@ export const convertToDisplayName = kebab => {
 
 // Export the property sets to be generated into CSS declarations.
 export default [
+    general,
     githubPropertySet
 ];
