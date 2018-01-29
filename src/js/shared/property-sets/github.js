@@ -15,7 +15,7 @@ export const properties = {
         css: "font-size",
         valueMapping: "fontSize",
         type: Types.NUMBER,
-        defaultValue: "18",
+        defaultValue: 18,
         unit: "px",
         inheritable: true
     },
@@ -23,7 +23,7 @@ export const properties = {
         css: "line-height",
         valueMapping: "lineHeight",
         type: Types.NUMBER,
-        defaultValue: "1.5",
+        defaultValue: 1.5,
         unit: "em",
         inheritable: true
     }
