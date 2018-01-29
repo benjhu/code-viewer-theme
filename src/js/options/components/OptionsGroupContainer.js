@@ -1,6 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Grid from "material-ui/Grid";
+import Button from "material-ui/Button";
+import { actions } from "Shared/optionsReducer";
 import { isBinaryInput } from "Shared/Types";
 import { kebabOrSpaceToCamel } from "root/js/util/utils";
 import OptionsItem from "./OptionsItem";
@@ -18,18 +21,21 @@ const normalizeProperty= (setName, property) => {
 class OptionGroupContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.updateOptionsGroupState = this.updateOptionsGroupState.bind(this);
+        this.updateOptionsGroupComponentState = this.updateOptionsGroupComponentState.bind(this);
 
         this.state = {};
     }
 
-    updateOptionsGroupState(optionName) {
+    updateOptionsGroupComponentState(optionName) {
         return e => {
             const target = e.target;
 
             this.setState({
                 [optionName]: isBinaryInput(e.target.type) ?
-                    target.checked : target.value
+                    target.checked :
+                    (target.type === "number" ?
+                        Number.parseFloat(target.value) :
+                        target.value)
             });
         };
     }
@@ -46,7 +52,7 @@ class OptionGroupContainer extends React.Component {
     }
 
     render() {
-        const { displayName, properties } = this.props;
+        const { name, displayName, properties } = this.props;
 
         return (
             <Grid container>
@@ -57,17 +63,33 @@ class OptionGroupContainer extends React.Component {
                     {
                         properties.map((property, i) => {
                             const propertyString = normalizeProperty(property.setID, property.property);
+                            const valueInState = this.state[propertyString];
+                            const passThisToItemProps = valueInState ||
+                                Number.isFinite(valueInState) ? valueInState : 0;
 
                             return (
                                 <OptionsItem
                                     key={ i }
                                     type={ property.type }
-                                    subscribeTo={ this.updateOptionsGroupState(propertyString) }
-                                    state={ this.state[propertyString] || "" }
+                                    subscribeTo={ this.updateOptionsGroupComponentState(propertyString) }
+                                    state={ passThisToItemProps }
                                     { ...property } />
                             );
                         })
                     }
+                </Grid>
+                <Grid container item xs={12}>
+                    <Grid item xs={2}>
+                        <Button
+                            raised color="primary"
+                            onClick={ this.props.updateOptionGroupState(name, this.state) }>Save</Button>
+                    </Grid>
+                    <Grid item xs={2}>{ this.state.saved ? "Saved!" : "" }</Grid>
+                    <Grid item xs={8}>
+                        <Button
+                            raised color="secondary"
+                            onClick={ () => {} }>Restore</Button>
+                    </Grid>
                 </Grid>
             </Grid>
         );
@@ -79,4 +101,32 @@ OptionGroupContainer.propTypes = {
     properties: PropTypes.array
 };
 
-export default OptionGroupContainer;
+const mapDispatchToProps = (dispatch, ownProps) => {
+    const { properties } = ownProps;
+
+    return {
+        // Prop will be passed to a button UI control so it can sync the
+        // UI state with the state of the Redux store.
+        updateOptionGroupState: (setID, state) => e => {
+            console.log("Updating State: ", state);
+
+            properties.forEach(({ property, type, value, unit }) => {
+                const valueInState = state[normalizeProperty(setID, property)];
+
+                // Dispatch an action for each property in the group state.
+                if (value !== valueInState) {
+                    console.log("Setting to ", valueInState);
+
+                    dispatch({
+                        type: actions.UPDATE,
+                        setAs: valueInState,
+                        propertyType: type,
+                        setID, property, unit
+                    });
+                }
+            });
+        }
+    };
+};
+
+export default connect(null, mapDispatchToProps)(OptionGroupContainer);
