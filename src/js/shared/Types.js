@@ -1,7 +1,17 @@
 const types = {
     TEXT: Symbol("TEXT"),
     NUMBER: Symbol("NUMBER"),
-    PERCENTAGE: Symbol("PERCENTAGE")
+    PERCENTAGE: Symbol("PERCENTAGE"),
+    BINARY: Symbol("BINARY")
+};
+
+export const isBinaryInput = input => {
+    let check = input.type;
+
+    if (typeof input === "string")
+        check = input;
+
+    return check && (check === "checkbox" || check === "radio");
 };
 
 export const isReallyTyped = (value, type) => {
