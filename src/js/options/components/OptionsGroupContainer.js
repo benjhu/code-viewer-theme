@@ -64,8 +64,9 @@ class OptionGroupContainer extends React.Component {
                         properties.map((property, i) => {
                             const propertyString = normalizeProperty(property.setID, property.property);
                             const valueInState = this.state[propertyString];
-                            const passThisToItemProps = valueInState ||
-                                Number.isFinite(valueInState) ? valueInState : 0;
+                            const passThisToItemProps =
+                                (valueInState === "" ? "" : valueInState  ||
+                                    Number.isFinite(valueInState) ? valueInState : 0);
 
                             return (
                                 <OptionsItem
