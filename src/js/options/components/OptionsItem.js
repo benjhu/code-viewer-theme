@@ -44,7 +44,7 @@ OptionsItem.propTypes = {
     subscribeTo: PropTypes.func,
     property: PropTypes.string,
     state: PropTypes.oneOfType([
-        PropTypes.bool, PropTypes.string
+        PropTypes.bool, PropTypes.string, PropTypes.number
     ])
 };
 
