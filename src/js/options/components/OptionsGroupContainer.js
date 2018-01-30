@@ -22,8 +22,11 @@ class OptionGroupContainer extends React.Component {
     constructor(props) {
         super(props);
         this.updateOptionsGroupComponentState = this.updateOptionsGroupComponentState.bind(this);
+        this.triggerSavedMessage = this.triggerSavedMessage.bind(this);
 
-        this.state = {};
+        this.state = {
+            saved: false
+        };
     }
 
     updateOptionsGroupComponentState(optionName) {
@@ -40,6 +43,15 @@ class OptionGroupContainer extends React.Component {
         };
     }
 
+    triggerSavedMessage(time) {
+        return () => {
+            this.setState({ saved: true });
+            this.savedTimeout = setTimeout(() => {
+                this.setState({ saved: false });
+            }, time || 3000);
+        };
+    }
+
     componentWillReceiveProps(nextProps) {
         const { properties } = nextProps;
 
@@ -49,6 +61,11 @@ class OptionGroupContainer extends React.Component {
                     [normalizeProperty(property.setID, property.property)]: property.value
                 }));
         }
+    }
+
+    componentWillUnmount() {
+        if (this.savedTimeout)
+            clearInterval(this.savedTimeout);
     }
 
     render() {
@@ -83,7 +100,9 @@ class OptionGroupContainer extends React.Component {
                     <Grid item xs={2}>
                         <Button
                             raised color="primary"
-                            onClick={ this.props.updateOptionGroupState(name, this.state) }>Save</Button>
+                            onClick={ e => {
+                                this.triggerSavedMessage()();
+                                this.props.updateOptionGroupState(name, this.state)(e); } }>Save</Button>
                     </Grid>
                     <Grid item xs={2}>{ this.state.saved ? "Saved!" : "" }</Grid>
                     <Grid item xs={8}>
