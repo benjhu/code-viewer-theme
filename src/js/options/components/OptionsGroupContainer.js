@@ -23,10 +23,12 @@ class OptionGroupContainer extends React.Component {
     constructor(props) {
         super(props);
         this.updateOptionsGroupComponentState = this.updateOptionsGroupComponentState.bind(this);
-        this.triggerSavedMessage = this.triggerSavedMessage.bind(this);
+        this.showSavedNotification = this.showSavedNotification.bind(this);
+        this.unsave = this.unsave.bind(this);
 
         this.state = {
-            saved: false
+            // To render the TimeoutNotification component or not...
+            showingSavedNotification: false
         };
     }
 
@@ -42,6 +44,35 @@ class OptionGroupContainer extends React.Component {
                         target.value)
             });
         };
+    }
+
+    showSavedNotification() {
+        this.setState({ showingSavedNotification: true });
+    }
+
+    unsave() {
+        this.setState({ showingSavedNotification: false });
+    }
+
+    renderItems(properties) {
+        console.log(properties);
+
+        return properties.map((property, i) => {
+            const propertyString = normalizeProperty(property.setID, property.property);
+            const valueInState = this.state[propertyString];
+            const passThisToItemProps =
+                (valueInState === "" ? "" : valueInState  ||
+                    Number.isFinite(valueInState) ? valueInState : 0);
+
+            return (
+                <OptionsItem
+                    key={ i }
+                    type={ property.type }
+                    subscribeTo={ this.updateOptionsGroupComponentState(propertyString) }
+                    state={ passThisToItemProps }
+                    { ...property } />
+            );
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -68,36 +99,20 @@ class OptionGroupContainer extends React.Component {
                 <Grid item xs={ 12 }>
                     <h1>{ displayName }</h1>
                 </Grid>
-                <Grid container item xs={ 12 }>
-                    {
-                        properties.map((property, i) => {
-                            const propertyString = normalizeProperty(property.setID, property.property);
-                            const valueInState = this.state[propertyString];
-                            const passThisToItemProps =
-                                (valueInState === "" ? "" : valueInState  ||
-                                    Number.isFinite(valueInState) ? valueInState : 0);
-
-                            return (
-                                <OptionsItem
-                                    key={ i }
-                                    type={ property.type }
-                                    subscribeTo={ this.updateOptionsGroupComponentState(propertyString) }
-                                    state={ passThisToItemProps }
-                                    { ...property } />
-                            );
-                        })
-                    }
-                </Grid>
+                <Grid container item xs={ 12 }>{ this.renderItems(properties) }</Grid>
                 <Grid container item xs={12}>
                     <Grid item xs={2}>
                         <Button
                             raised color="primary"
-                            onClick={ this.props.updateOptionGroupState(name, this.state) }>Save</Button>
+                            onClick={ () => {
+                                this.showSavedNotification();
+                                this.props.updateOptionGroupState(name, this.state)(); } }>Save</Button>
                     </Grid>
                     <Grid item xs={2}>
                         <TimeoutNotification
                             time={ 3000 }
-                            activation={ this.state.saved }>Saved!</TimeoutNotification>
+                            activation={ this.state.showingSavedNotification }
+                            onTimeout={ this.unsave }>Saved!</TimeoutNotification>
                     </Grid>
                     <Grid item xs={8}>
                         <Button

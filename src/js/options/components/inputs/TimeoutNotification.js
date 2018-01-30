@@ -1,24 +1,14 @@
 import React from "react";
 
 class TimeoutNotification extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            notified: false
-        };
-    }
-
     triggerNotification(time = 1000) {
-        this.setState({ notified: true });
-
         this.notifierTimeout = setTimeout(() => {
-            this.setState({ notified: false });
+            this.props.onTimeout();
         }, time);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!!this.props.activation !== nextProps.activation)
+        if (!!this.props.activation !== !!nextProps.activation)
             this.triggerNotification(nextProps.time || this.props.time);
     }
 
@@ -28,11 +18,12 @@ class TimeoutNotification extends React.Component {
     }
 
     render() {
-        return this.state.notified ? (
+        return this.props.activation ? (
             <div style={ {
                 color: "#32C949",
                 display: "flex",
-                alignItems: "center" } }>{ this.props.children }</div>
+                alignItems: "center",
+                width: "100%", height: "100%" } }>{ this.props.children }</div>
         ) : null;
     }
 }
