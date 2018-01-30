@@ -55,8 +55,6 @@ class OptionGroupContainer extends React.Component {
     }
 
     renderItems(properties) {
-        console.log(properties);
-
         return properties.map((property, i) => {
             const propertyString = normalizeProperty(property.setID, property.property);
             const valueInState = this.state[propertyString];
