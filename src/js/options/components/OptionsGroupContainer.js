@@ -7,6 +7,7 @@ import { actions } from "Shared/optionsReducer";
 import { isBinaryInput } from "Shared/Types";
 import { kebabOrSpaceToCamel } from "root/js/util/utils";
 import OptionsItem from "./OptionsItem";
+import TimeoutNotification from "./inputs/TimeoutNotification";
 
 const normalizeProperty= (setName, property) => {
     return kebabOrSpaceToCamel(`${setName}-${property}`);
@@ -40,15 +41,6 @@ class OptionGroupContainer extends React.Component {
                         Number.parseFloat(target.value) :
                         target.value)
             });
-        };
-    }
-
-    triggerSavedMessage(time) {
-        return () => {
-            this.setState({ saved: true });
-            this.savedTimeout = setTimeout(() => {
-                this.setState({ saved: false });
-            }, time || 3000);
         };
     }
 
@@ -100,11 +92,13 @@ class OptionGroupContainer extends React.Component {
                     <Grid item xs={2}>
                         <Button
                             raised color="primary"
-                            onClick={ e => {
-                                this.triggerSavedMessage()();
-                                this.props.updateOptionGroupState(name, this.state)(e); } }>Save</Button>
+                            onClick={ this.props.updateOptionGroupState(name, this.state) }>Save</Button>
                     </Grid>
-                    <Grid item xs={2}>{ this.state.saved ? "Saved!" : "" }</Grid>
+                    <Grid item xs={2}>
+                        <TimeoutNotification
+                            time={ 3000 }
+                            activation={ this.state.saved }>Saved!</TimeoutNotification>
+                    </Grid>
                     <Grid item xs={8}>
                         <Button
                             raised color="secondary"
